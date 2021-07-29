@@ -175,11 +175,11 @@ imageDiv.append(imageEl);
 
 function addToCart(storeItem, cartItems) {
 
-console.log("Inside addToCart: ", storeItem, cartItems)
+// console.log("Inside addToCart: ", storeItem, cartItems)
 
 const newCartItem = {
   item: storeItem,
-  quantity: 2
+  quantity: 1
 };
 cartItems.push(newCartItem);
 console.log("New cart item:", cartItems)
