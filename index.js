@@ -183,7 +183,14 @@ const newCartItem = {
 };
 cartItems.push(newCartItem);
 console.log("New cart item:", cartItems)
+
+return addToCart;
+
 }
+
+addToCart(storeItems, cartItems);
+// console.log(addToCart);
+
 // let foundItem = false;
 
 // // storeItem needs to exist in cartItems, to extract the data
