@@ -64,51 +64,51 @@ const storeItems = [
 const cartItems = [
   {
     itemId: "001-beetroot",
-    quantity: 2
+    quantity: 0
   },
   {
     itemId: "002-carrot",
-    quantity: 1
+    quantity: 0
   },
   {
     itemId: "003-apple",
-    quantity: 1
+    quantity: 0
   },
   {
     itemId: "004-apricot",
-    quantity: 1
+    quantity: 0
   },
   {
     itemId: "005-avocado",
-    quantity: 1
+    quantity: 0
   },
   {
     itemId: "006-bananas",
-    quantity: 1
+    quantity: 0
   },
   {
     itemId: "007-bell-pepper",
-    quantity: 1
+    quantity: 0
   },
   {
     itemId: "008-berry",
-    quantity: 1
+    quantity: 0
   },
   {
     itemId: "009-blueberry",
-    quantity: 1
+    quantity: 0
   },
   {
     itemId: "010-eggplant",
-    quantity: 1
+    quantity: 0
   },
 ];
 
 console.log(cartItems)
 
 // create bridges
-const storeItemList = document.querySelector(".store--item-list")
-
+const storeItemList = document.querySelector(".store--item-list");
+const cartItemListEl = document.querySelector(".cart--item-list");
 // console.log(cartItems)
 
 {/* <li>
@@ -158,6 +158,12 @@ imageEl.src = `assets/icons/${storeItem.id}.svg`;
 const addToCartButton = document.createElement("button");
 addToCartButton.innerText = "Add To Cart";
 
+addToCartButton.addEventListener("click", (event) => {
+  addToCart(storeItem, cartItems);
+
+  console.log("After the click: ", cartItems)
+})
+
 listItemEl.append(addToCartButton);
 
 // console.log(addToCartButton)
@@ -177,40 +183,105 @@ function addToCart(storeItem, cartItems) {
 
 // console.log("Inside addToCart: ", storeItem, cartItems)
 
+let foundItem = false;
+
+for (let i = 0; i < cartItems.length; i++) {
+  const cartItem = cartItems[i];
+  // console.log("inside loop: ", storeItems, cartItem)
+
+
+if (storeItem.id === cartItem.itemId) {
+  cartItem.quantity = cartItem.quantity + 1;
+
+  foundItem = true;
+    }
+}
+
+if (!foundItem){
 const newCartItem = {
   item: storeItem,
   quantity: 1
 };
+
 cartItems.push(newCartItem);
-console.log("New cart item:", cartItems)
 
 return addToCart;
+    }
+};
 
+function renderCartItems(cartItems) {
+  console.log("Inside renderCartItems: ", cartItems);
+
+  cartItemListEl.innerHTML = "";
+
+  for (let i = 0; i < cartItems.length; i++) {
+    const cartItem = cartItems[i]
+    const item = cartItem.itemId
+
+    const listItemEl = document.createElement("li");
+
+    const imageEl = document.createElement("img");
+    imageEl.className = "cart--item-icon";
+    imageEl.src = `assets/icons/${item}.svg`;
+    
+    listItemEl.append(imageEl);
+
+    const paragraphEL = document.createElement("p");
+    paragraphEL.innerHTML = item;
+
+    listItemEl.append(paragraphEL);
+
+    cartItemListEl.append(listItemEl);
+
+    const removeButton = document.createElement("button");
+    removeButton.className = "quantity-btn remove-btn center";
+    removeButton.innerText = "-";
+
+    listItemEl.append(removeButton);
+
+    const quantitySpanEl = document.createElement("span");
+    quantitySpanEl.innerText = cartItem.quantity;
+
+    listItemEl.append(quantitySpanEl);
+
+    const addButton = document.createElement("button");
+    addButton.className = "quantity-btn add-btn center";
+    addButton.innerText = "+";
+
+    listItemEl.append(addButton);
+
+    cartItemListEl.append(listItemEl);
+
+    addButton.addEventListener("click", () => {
+      console.log("Item onClick: ", item);
+      addToCart(item, cartItem);
+      renderCartItems(cartItems);
+    });
+
+    
+  }
+  
 }
 
-addToCart(storeItems, cartItems);
+renderCartItems(cartItems)
+// console.log("New cart item:", cartItems)
+
+// const beetroot = storeItems[0]
+// const carrot = storeItems[1]
+// const apple = storeItems[2]
+// const apricot = storeItems[3]
+// const avocado = storeItems[4]
+// const bananas = storeItems[5]
+// const bellpeppers = storeItems[6]
+// const berry = storeItems[7]
+// const blueberry = storeItems[8]
+// const eggplant = storeItems[9]
+
+// addToCart(beetroot, cartItems);
+// addToCart(carrot, cartItems);
+
 // console.log(addToCart);
-
-// let foundItem = false;
-
-// // storeItem needs to exist in cartItems, to extract the data
-
-// for (let i = 0; i < cartItems.length; i++) {
-//   const selectedItem = cartItems[i].itemId;
-//   console.log("selecteditem: ", selectedItem);
-
-//   let cartQuantity = cartItems[i].quantity;
-//   console.log("Quantity: ", cartQuantity);
-
-//   const selectedItemID = storeItems.id;
-//   console.log("ID: ", selectedItemID);  
-
   
-// }
-  
-
-
-
 // 2.0 call the function
 // 2.1 Give the function an argument
 // 2.2 check if its correct with console.log
